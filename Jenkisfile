@@ -36,6 +36,16 @@ pipeline {
     }
                 
             }
+
+  stage('sonar'){
+            steps{
+                dir ('trading'){
+
+               bat './mvnw clean verify sonar:sonar -Dsonar.projectKey=pj_jenk -Dsonar.host.url=http://localhost:9000 -Dxonar.login=sqp_3da8c7a55b9011cbc23d9104e4b34c0af033dc59'
+
+    }
+
+            }
     }
     stage('package'){
             steps{
