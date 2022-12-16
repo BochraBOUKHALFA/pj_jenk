@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    stages {
+        stage('checkout') {
+            steps{
+             git branch: 'main', url: 'https://github.com/bouchrasource/pj_jenk.git'
+            }  
+
+            }
+        
+        stage('clean'){
+            steps{
+                dir ('trading'){
+               bat './mvnw clean' 
+              
+    }
+                
+            }
+    }
+    stage('compile'){
+            steps{
+                dir ('trading'){
+             
+               bat './mvnw compile'
+               
+    }
+                
+            }
+    }
+    stage('test'){
+            steps{
+                dir ('trading'){
+               
+               bat './mvnw test'
+               
+    }
+                
+            }
+    }
+    stage('package'){
+            steps{
+                dir ('trading'){
+              
+               bat './mvnw package'
+              
+    }
+                
+            }
+    }
+    stage('archive'){
+            steps{
+                dir ('trading'){
+              
+               bat 'rename target\\trading-0.0.1-SNAPSHOT.jar trading-%BUILD_NUMBER%.jar'
+               archiveArtifacts artifacts: 'target\\trading-*.jar', followSymlinks: false
+    }
+                
+            }
+    }
+    
+}
+}
